@@ -1,0 +1,63 @@
+body{
+	background-image: url('images/woodBackground2.jpg');
+	padding: 30px;
+}
+
+div.dice{
+	width:50px;
+	height: 50px;
+	background:white;
+	border:#999 2px solid;
+	font-size:34px;
+	text-align: center;
+	margin: 10px;
+	display: inline-block;
+}
+
+#Container{
+	text-align: center;
+}
+
+#DiceTable{
+	background-image: url("images/blubackground.jpg");
+	border: 2px solid black;
+	width: 720px;
+	height: 281px;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+table#tb1{
+	border: black 2px solid;
+	border-collapse: collapse;
+	display: inline-block;
+	background-color: white;
+}
+table#tb1 th, td{
+	border: #999 1px solid;
+}
+tr.Points:hover{
+	background-color: skyblue;
+}
+#Sum{
+	background-color: slategray;
+}
+#Bonus{
+	background-color: slategray;
+}
+#Total{
+	background-color: slategray;
+}
+img.diceI{
+	object-fit: cover;
+	width: 100%;
+}
+#SpawnP1{
+	background-color: white;
+	border: black 2px solid;
+}
+#Button{
+	padding: 10px;
+}

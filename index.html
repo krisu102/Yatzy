@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Yatzy</title>
+</head>
+<body>
+    
+<div id="Container">
+    <div id="DiceTable">
+            <div id="dice1" class="dice" onclick="Hold(0)"><img class="diceI" src="images/dice1.png" alt="dice1"></div>
+            <div id="dice2" class="dice" onclick="Hold(1)"><img class="diceI" src="images/dice2.png" alt="dice1"></div>
+            <div id="dice3" class="dice" onclick="Hold(2)"><img class="diceI" src="images/dice3.png" alt="dice1"></div>
+            <div id="dice4" class="dice" onclick="Hold(3)"><img class="diceI" src="images/dice4.png" alt="dice1"></div>
+            <div id="dice5" class="dice" onclick="Hold(4)"><img class="diceI" src="images/dice5.png" alt="dice1"></div>
+    </div>
+    <br>
+    <button id="Button" onclick="RollDice()">Roll dice</button>
+    <p id="P1"><span id="SpawnP1">Throws left: 3</span></p>
+        <table id="tb1">
+            <tr>
+                <th>Rule</th>
+                <th>Player</th>
+            </tr>
+             <tr id="Ones" class="Points">
+                <td>Ones</td>
+                <td>0</td>
+            </tr>
+            <tr id="Twos" class="Points">
+                <td>Twos</td>
+                <td>0</td>
+             </tr>
+             <tr id="Threes" class="Points">
+                <td>Threes</td>
+                <td>0</td>
+             </tr>
+            <tr id="Fours" class="Points">
+                <td>Fours</td>
+                <td>0</td>
+            </tr>
+            <tr id="Fives" class="Points">
+                <td>Fives</td>
+                <td>0</td>
+            </tr>
+            <tr id="Sixes" class="Points">
+                <td>Sixes</td>
+                <td>0</td>
+            </tr>
+            <tr id="Sum">
+                <td>Sum</td>
+                <td>0</td>
+            </tr>
+            <tr id="Bonus">
+                <td>Bonus</td>
+                <td>0</td>
+            </tr>
+            <tr id="1Pair" class="Points">
+                <td>1 Pair</td>
+                <td>0</td>
+            </tr>
+            <tr id="2Pair" class="Points">
+                <td>2 Pair</td>
+                <td>0</td>
+            </tr>
+            <tr id="3ofkind" class="Points">
+                <td>3 of kind</td>
+                <td>0</td>
+            </tr>
+            <tr id="4ofkind" class="Points">
+                <td>4 of kind</td>
+                <td>0</td>
+            </tr>
+            <tr id="SmallStraight" class="Points">
+                <td>Small straight</td>
+                <td>0</td>
+            </tr>
+            <tr id="LargeStraight" class="Points">
+                <td>Large straight</td>
+                <td>0</td>
+            </tr>
+            <tr id="FullHouse" class="Points">
+                <td>Full house</td>
+                <td>0</td>
+            </tr>
+            <tr id="Chance" class="Points">
+                <td>Chance</td>
+                <td>0</td>
+            </tr>
+            <tr id="Yatzy" class="Points">
+                <td>Yatzy</td>
+                <td>0</td>
+            </tr>
+            <tr id="Total">
+                <td>Total</td>
+                <td>0</td>
+            </tr>
+        </table>
+</div>
+    <script src="script.js"></script>
+</body>
+</html>
