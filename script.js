@@ -162,7 +162,7 @@ function CalculateTotal(){
             pairCounter++;
             
             //check if there is 2 pairs and they are not the same numbers
-            if(pairCounter == 2 && tempTwopair != (sortedNumbers[i] + previous)){
+            if(pairCounter > 1 && tempTwopair != (sortedNumbers[i] + previous)){
                 twopairTotal = tempTwopair + (sortedNumbers[i] + previous)
             }
             tempTwopair = sortedNumbers[i] + previous;
