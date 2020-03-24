@@ -1,4 +1,6 @@
 //TableVariables
+const table = document.getElementById("tb1");
+const Header = document.getElementById("Header");
 const Ones = document.getElementById("Ones");
 const Twos = document.getElementById("Twos");
 const Threes = document.getElementById("Threes");
@@ -18,11 +20,17 @@ const Sum = document.getElementById("Sum");
 const Bonus = document.getElementById("Bonus");
 const Total = document.getElementById("Total");
 const TableVariables = [Ones, Twos, Threes, Fours, Fives, Sixes, OnePair, TwoPair, ThreeOfkind, FourOfKind, SmallStraight, LargeStraight, FullHouse, Chance, Yatzy];
+const AllTableVariables = [Header, Ones, Twos, Threes, Fours, Fives, Sixes, Sum, Bonus, OnePair, TwoPair, ThreeOfkind, FourOfKind, SmallStraight, LargeStraight, FullHouse, Chance, Yatzy, Total];
 
+const NumOfPlayers = document.getElementById("numOfPlayers");
 const Button = document.getElementById("Button");
+
+var CurrentNumOfPlayers = 1;
+var CurrentPlayer = 1;
+
 var RollCounter = 3;
 var Chosen = true;
-var NumbersSum = 0, EverythingTotal = 0;
+var NumbersSum = [0,0,0,0], EverythingTotal = [0,0,0,0];
 
 //DiceElements
 const Dice1 = document.getElementById("dice1");
@@ -39,13 +47,65 @@ var d4 = {value: 0, Roll: true};
 var d5 = {value: 0, Roll: true};
 var Dice = [d1, d2, d3, d4, d5];
 
+function SetTable(){
+    PlayersSelect();
+}
+
 //EventListeners
 for(var i = 0; i < TableVariables.length; i++){
     TableVariables[i].addEventListener("click", Choose);
 }
 
+NumOfPlayers.addEventListener("change", PlayersSelect);
+
+
+//Change table columns based on num of players
+function PlayersSelect(){
+    if(NumOfPlayers.value < CurrentNumOfPlayers){
+        for(var i = CurrentNumOfPlayers; i > NumOfPlayers.value; i--){
+            RemoveColumn();
+        }
+    }
+    if(NumOfPlayers.value > CurrentNumOfPlayers){
+        for(var i = CurrentNumOfPlayers; i < NumOfPlayers.value; i++){
+            AddColumn(i);
+        }
+    }
+
+    CurrentNumOfPlayers = NumOfPlayers.value;
+}
+
+function AddColumn(i) {
+    i++;
+    //add header
+        var tr = document.getElementById('tb1').tHead.children[0],
+        th = document.createElement('th');
+        th.innerHTML = "Player " + i;
+        tr.appendChild(th);
+    
+    //add columns
+    for(var i = 1; i < AllTableVariables.length; i++){
+        var row = AllTableVariables[i];
+        var cell = row.insertCell(-1);
+        cell.innerHTML = "0";
+    }
+  }
+
+  function RemoveColumn(){
+    //remove columns
+    for(var i = 0; i < AllTableVariables.length; i++){
+        var row = AllTableVariables[i];
+        row.deleteCell(-1);
+  }
+}
+
+
+
+
 //Roll dice button
 function RollDice(){
+    Button.disabled = true;
+    NumOfPlayers.disabled = true;
     RollCounter -= 1;
 
     if(RollCounter < 1){
@@ -64,7 +124,6 @@ function RollDice(){
                 //random numbers for Dice
                 Dice[i].value = Math.floor(Math.random() * 6) + 1;
                 //change divs
-                //ElementDice[i].innerHTML = Dice[i].value;
                 if(Dice[i].value == 1) ElementDice[i].firstChild.src = "images/dice1.png";
                 if(Dice[i].value == 2) ElementDice[i].firstChild.src = "images/dice2.png";
                 if(Dice[i].value == 3) ElementDice[i].firstChild.src = "images/dice3.png";
@@ -75,6 +134,10 @@ function RollDice(){
     }
         CalculateTotal();
         Chosen = false;
+
+        if(RollCounter >= 1){
+            Button.disabled = false;
+        }
 
         }, 1000);
         
@@ -208,21 +271,21 @@ function CalculateTotal(){
 
 
     //add everything to table
-    if(Ones.cells[1].style.backgroundColor != "grey") Ones.cells[1].innerHTML = onesTotal;
-    if(Twos.cells[1].style.backgroundColor != "grey") Twos.cells[1].innerHTML = twosTotal;
-    if(Threes.cells[1].style.backgroundColor != "grey") Threes.cells[1].innerHTML = threesTotal;
-    if(Fours.cells[1].style.backgroundColor != "grey") Fours.cells[1].innerHTML = foursTotal;
-    if(Fives.cells[1].style.backgroundColor != "grey") Fives.cells[1].innerHTML = fivesTotal;
-    if(Sixes.cells[1].style.backgroundColor != "grey") Sixes.cells[1].innerHTML = sixesTotal;
-    if(OnePair.cells[1].style.backgroundColor != "grey") OnePair.cells[1].innerHTML = onepairTotal;
-    if(TwoPair.cells[1].style.backgroundColor != "grey") TwoPair.cells[1].innerHTML = twopairTotal;
-    if(ThreeOfkind.cells[1].style.backgroundColor != "grey") ThreeOfkind.cells[1].innerHTML = threeofkindTotal;
-    if(FourOfKind.cells[1].style.backgroundColor != "grey") FourOfKind.cells[1].innerHTML = fourofkindTotal;
-    if(SmallStraight.cells[1].style.backgroundColor != "grey") SmallStraight.cells[1].innerHTML = smallstraightTotal;
-    if(LargeStraight.cells[1].style.backgroundColor != "grey") LargeStraight.cells[1].innerHTML = largestraightTotal;
-    if(FullHouse.cells[1].style.backgroundColor != "grey") FullHouse.cells[1].innerHTML = fullhouseTotal;
-    if(Chance.cells[1].style.backgroundColor != "grey") Chance.cells[1].innerHTML = total;
-    if(Yatzy.cells[1].style.backgroundColor != "grey") Yatzy.cells[1].innerHTML = yatzyTotal;
+    if(Ones.cells[CurrentPlayer].style.backgroundColor != "grey") Ones.cells[CurrentPlayer].innerHTML = onesTotal;
+    if(Twos.cells[CurrentPlayer].style.backgroundColor != "grey") Twos.cells[CurrentPlayer].innerHTML = twosTotal;
+    if(Threes.cells[CurrentPlayer].style.backgroundColor != "grey") Threes.cells[CurrentPlayer].innerHTML = threesTotal;
+    if(Fours.cells[CurrentPlayer].style.backgroundColor != "grey") Fours.cells[CurrentPlayer].innerHTML = foursTotal;
+    if(Fives.cells[CurrentPlayer].style.backgroundColor != "grey") Fives.cells[CurrentPlayer].innerHTML = fivesTotal;
+    if(Sixes.cells[CurrentPlayer].style.backgroundColor != "grey") Sixes.cells[CurrentPlayer].innerHTML = sixesTotal;
+    if(OnePair.cells[CurrentPlayer].style.backgroundColor != "grey") OnePair.cells[CurrentPlayer].innerHTML = onepairTotal;
+    if(TwoPair.cells[CurrentPlayer].style.backgroundColor != "grey") TwoPair.cells[CurrentPlayer].innerHTML = twopairTotal;
+    if(ThreeOfkind.cells[CurrentPlayer].style.backgroundColor != "grey") ThreeOfkind.cells[CurrentPlayer].innerHTML = threeofkindTotal;
+    if(FourOfKind.cells[CurrentPlayer].style.backgroundColor != "grey") FourOfKind.cells[CurrentPlayer].innerHTML = fourofkindTotal;
+    if(SmallStraight.cells[CurrentPlayer].style.backgroundColor != "grey") SmallStraight.cells[CurrentPlayer].innerHTML = smallstraightTotal;
+    if(LargeStraight.cells[CurrentPlayer].style.backgroundColor != "grey") LargeStraight.cells[CurrentPlayer].innerHTML = largestraightTotal;
+    if(FullHouse.cells[CurrentPlayer].style.backgroundColor != "grey") FullHouse.cells[CurrentPlayer].innerHTML = fullhouseTotal;
+    if(Chance.cells[CurrentPlayer].style.backgroundColor != "grey") Chance.cells[CurrentPlayer].innerHTML = total;
+    if(Yatzy.cells[CurrentPlayer].style.backgroundColor != "grey") Yatzy.cells[CurrentPlayer].innerHTML = yatzyTotal;
     
     
 }
@@ -230,14 +293,15 @@ function CalculateTotal(){
 
 function Choose(){
     if(Chosen != true){
-        if(this.cells[1].style.backgroundColor != "grey"){
+        if(this.cells[CurrentPlayer].style.backgroundColor != "grey"){
        
-            this.cells[1].style.backgroundColor = "grey";
+            this.cells[CurrentPlayer].style.backgroundColor = "grey";
         
             if(this == Ones || this == Twos || this == Threes || this == Fours || this == Fives || this == Sixes){
-                NumbersSum += parseInt(this.cells[1].innerHTML);
+                NumbersSum[CurrentPlayer - 1] += parseInt(this.cells[CurrentPlayer].innerHTML); 
             }
-            EverythingTotal += parseInt(this.cells[1].innerHTML);
+
+            EverythingTotal[CurrentPlayer - 1] += parseInt(this.cells[CurrentPlayer].innerHTML);
 
             Chosen = true;
 
@@ -254,18 +318,27 @@ function Choose(){
                 Button.disabled = false;
             }
 
-            }
     
         //add sum, total and bonus
-        Sum.cells[1].innerHTML = NumbersSum;
-        Total.cells[1].innerHTML = EverythingTotal;
-        if(NumbersSum >= 63){
-            Bonus.cells[1].innerHTML = 50;
-            Total.cells[1].innerHTML = EverythingTotal + 50;
+        Sum.cells[CurrentPlayer].innerHTML = NumbersSum[CurrentPlayer - 1];
+        Total.cells[CurrentPlayer].innerHTML = EverythingTotal[CurrentPlayer - 1];
+        if(NumbersSum[CurrentPlayer - 1] >= 63){
+            Bonus.cells[CurrentPlayer].innerHTML = 50;
+            Total.cells[CurrentPlayer].innerHTML = EverythingTotal[CurrentPlayer - 1] + 50;
         } 
-        else Bonus.cells[1].innerHTML = 0;
+        else Bonus.cells[CurrentPlayer].innerHTML = 0;
 
         document.getElementById("SpawnP1").innerHTML = "Throws left: " + RollCounter;
+  
+
+        //change current player
+        if(CurrentPlayer < CurrentNumOfPlayers){
+            CurrentPlayer++;
+        }
+        else CurrentPlayer = 1;
+        }
+
+        document.getElementById("SpawnP2").innerHTML = "Player " + CurrentPlayer;
 
     }
     
